@@ -1,0 +1,137 @@
+﻿@page "/Game"
+<h5>Kliknij w obszar gry, aby rozpocząć</h5>
+
+@if(win) {
+<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
+
+    @foreach (var block in _snake)
+    {
+        <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" Number="block.Number" X="block.X" Y="block.Y" />
+        <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
+    }
+
+</div> }
+else{
+<h5>Przegrana</h5>
+}
+<h5>Twoje punkty: <strong>@points</strong></h5>
+@code {
+    private int boxSize = 400;
+    private int fieldsInLine = 20;
+    private int interval = 100;
+    private List<SnakeBlock> _snake;
+    private String currentDirection = "D";
+    private FoodBlock _food;
+    private int points = 0;
+    private Boolean win = true;
+    protected override async Task OnInitializedAsync()
+    {
+        _snake = new List<SnakeBlock>()
+    {
+            new SnakeBlock(0,0,3),
+            new SnakeBlock(1,0,2),
+            new SnakeBlock(2,0,1),
+            new SnakeBlock(3,0)
+
+
+        };
+
+        _food = new FoodBlock(fieldsInLine, _snake);
+
+        _ = Clock();
+    }
+    private void SaveKeyboardAction(KeyboardEventArgs args)
+    {
+        if (args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
+            return;
+        else currentDirection = args.Key.ToUpper();
+
+    }
+    private async Task Clock()
+    {
+        while (true)
+        {
+            //zwiekszamy number w kazdym bloku weza
+
+            _snake.ForEach(e => e.Move());
+
+            //dodajemy
+            var head = GenerateNewOne(_snake.Min().X, _snake.Min().Y);
+            _snake.Add(head);
+
+            //czy zjadl jedzenie
+            var foodFound = head.Equals(_food);
+            if (foodFound)
+            {
+                _food = new FoodBlock(fieldsInLine, _snake);
+                points = _snake.Count - 4;
+            }
+
+            else
+                //usuwamy ogon
+                _snake.Remove(_snake.Max());
+
+
+
+
+            //sprawdzamy czy nie zjadl siebie
+
+            if (_snake.Count(e => e.Equals(head)) > 1)
+            {
+              
+                win = false;
+                break;
+            }
+
+
+
+
+            //zmiana stanu
+            StateHasChanged();
+            //usypiamy watek zgodnie z interwalem
+
+            await Task.Delay(interval);
+        }
+    }
+
+    private SnakeBlock GenerateNewOne(int x, int y)
+    {
+        switch (currentDirection)
+        {
+            case "W":
+                y--;
+                break;
+
+            case "S":
+                y++;
+                break;
+            case "A":
+                x--;
+                break;
+            case "D":
+                x++;
+                break;
+
+        }
+
+        if (x == fieldsInLine) x = 0;
+
+        if (x < 0) x = fieldsInLine - 1;
+
+
+
+        if (y == fieldsInLine) y = 0;
+
+        if (y < 0) y = fieldsInLine - 1;
+
+        return new SnakeBlock(x, y);
+
+    }
+
+    private string boxSizePx
+    {
+        get => $"{boxSize}px";
+    }
+}
+
+
