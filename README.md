@@ -1,2 +1,2 @@
 # Snake
-Snake browser game
+Snake browser game using Blazor Components
