@@ -23,6 +23,8 @@ else
     private int boxSize = 400;
     private int fieldsInLine = 20;
     private int interval = 100;
+
+    // TODO Change to LinkedList<SnakeBlock> _snake;
     private List<SnakeBlock> _snake;
     private String currentDirection = "D";
     private FoodBlock _food;
@@ -31,7 +33,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         _snake = new List<SnakeBlock>()
-    {
+        {
             new SnakeBlock(0,0,3),
             new SnakeBlock(1,0,2),
             new SnakeBlock(2,0,1),
