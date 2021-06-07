@@ -77,9 +77,6 @@ else
                 //usuwamy ogon
                 _snake.Remove(_snake.Max());
 
-
-
-
             //sprawdzamy czy nie zjadl siebie
 
             if (_snake.Count(e => e.Equals(head)) > 1)
@@ -88,9 +85,6 @@ else
                 win = false;
                 break;
             }
-
-
-
 
             //zmiana stanu
             StateHasChanged();
