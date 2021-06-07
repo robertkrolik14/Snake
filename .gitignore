@@ -5,3 +5,5 @@
 /.vs
 /Snake/obj/Debug/netstandard2.1
 /Snake/obj
+/Snake/bin/Debug/netstandard2.1/wwwroot/_framework
+/Snake/bin/Debug/netstandard2.1
