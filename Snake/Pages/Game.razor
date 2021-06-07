@@ -8,9 +8,9 @@
         @foreach (var block in _snake)
         {
             <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" Number="block.Number" X="block.X" Y="block.Y" />
-            <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
-        }
 
+        }
+        <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
     </div>
 }
 else
@@ -18,7 +18,7 @@ else
     <h5>Przegrana</h5>
 }
 <h5>Twoje punkty: <strong>@points</strong></h5>
-@code 
+@code
 {
     private int boxSize = 400;
     private int fieldsInLine = 20;
@@ -31,7 +31,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         _snake = new List<SnakeBlock>()
-        {
+    {
             new SnakeBlock(0,0,3),
             new SnakeBlock(1,0,2),
             new SnakeBlock(2,0,1),
@@ -46,7 +46,7 @@ else
     }
     private void SaveKeyboardAction(KeyboardEventArgs args)
     {
-        if(args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
+        if (args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
         {
             return;
         }
