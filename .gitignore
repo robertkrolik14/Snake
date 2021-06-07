@@ -2,6 +2,6 @@
 # Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Snake/v16/.suo
-/Snake/obj
 /.vs
+/Snake/obj/Debug/netstandard2.1
+/Snake/obj

@@ -1,21 +1,25 @@
 ﻿@page "/Game"
 <h5>Kliknij w obszar gry, aby rozpocząć</h5>
 
-@if(win) {
-<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
+@if (win)
+{
+    <div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
 
-    @foreach (var block in _snake)
-    {
-        <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" Number="block.Number" X="block.X" Y="block.Y" />
-        <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
-    }
+        @foreach (var block in _snake)
+        {
+            <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" Number="block.Number" X="block.X" Y="block.Y" />
+            <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
+        }
 
-</div> }
-else{
-<h5>Przegrana</h5>
+    </div>
+}
+else
+{
+    <h5>Przegrana</h5>
 }
 <h5>Twoje punkty: <strong>@points</strong></h5>
-@code {
+@code 
+{
     private int boxSize = 400;
     private int fieldsInLine = 20;
     private int interval = 100;
@@ -27,7 +31,7 @@ else{
     protected override async Task OnInitializedAsync()
     {
         _snake = new List<SnakeBlock>()
-    {
+        {
             new SnakeBlock(0,0,3),
             new SnakeBlock(1,0,2),
             new SnakeBlock(2,0,1),
@@ -42,8 +46,10 @@ else{
     }
     private void SaveKeyboardAction(KeyboardEventArgs args)
     {
-        if (args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
+        if(args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
+        {
             return;
+        }
         else currentDirection = args.Key.ToUpper();
 
     }
@@ -78,7 +84,7 @@ else{
 
             if (_snake.Count(e => e.Equals(head)) > 1)
             {
-              
+
                 win = false;
                 break;
             }
