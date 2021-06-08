@@ -2,7 +2,8 @@
 <h5>Kliknij w obszar gry, aby rozpocząć</h5>
 
 
-<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction" >
+<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
+
 
     @foreach (var block in _snake)
     {
@@ -35,13 +36,17 @@
     private int boxSize = 400;
     private int fieldsInLine = 20;
     private int interval = 100;
-
-    // TODO Change to LinkedList<SnakeBlock> _snake;
     private LinkedList<SnakeBlock> _snake;
     private List<int> scores = new List<int>();
     private string currentDirection = "KEYD";
     private FoodBlock _food;
     private int points = 0;
+    private string boxSizePx
+    {
+        get => $"{boxSize}px";
+    }
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,11 +55,15 @@
         _snake.AddFirst(new SnakeBlock(1, 0));
         _snake.AddFirst(new SnakeBlock(2, 0));
         _snake.AddFirst(new SnakeBlock(3, 0));
-
+     
         _food = new FoodBlock(fieldsInLine, _snake);
 
         _ = Clock();
     }
+
+
+
+
     private void SaveKeyboardAction(KeyboardEventArgs args)
     {
         Console.WriteLine(args.Code);
@@ -69,17 +78,14 @@
             args.Code != "ArrowDown" &&
             args.Code != "ArrowUp"
             )
-
-        { 
-            return; 
+        {
+            return;
         }
         else
         {
             currentDirection = args.Code.ToUpper();
         }
     }
-
-
 
 
     private async Task Clock()
@@ -113,7 +119,7 @@
             if (_snake.Count(e => e.Equals(head)) > 1)
             {
                 ResetGame();
-                break;
+
             }
 
             //zmiana stanu
@@ -164,10 +170,7 @@
 
     }
 
-    private string boxSizePx
-    {
-        get => $"{boxSize}px";
-    }
+
 
 
     private void ResetGame()
@@ -182,7 +185,7 @@
             scores.Add(points);
             points = 0;
         }
-        Clock().Start();
+
     }
 
 }
