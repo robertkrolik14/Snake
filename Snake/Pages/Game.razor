@@ -1,23 +1,35 @@
 ﻿@page "/Game"
 <h5>Kliknij w obszar gry, aby rozpocząć</h5>
 
-@if (win)
-{
-    <div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
 
-        @foreach (var block in _snake)
-        {
-            <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" Number="block.Number" X="block.X" Y="block.Y" />
+<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
 
-        }
-        <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
-    </div>
-}
-else
-{
-    <h5>Przegrana</h5>
-}
+    @foreach (var block in _snake)
+    {
+        <SnakeElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="block.X" Y="block.Y" />
+
+    }
+    <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
+</div>
+
+
 <h5>Twoje punkty: <strong>@points</strong></h5>
+
+@if (scores.Count != 0)
+{
+    <h5>Poprzednie wyniki:</h5>
+    @foreach (var score in scores)
+    {
+        <strong>@score ,</strong>
+    }
+
+    <hr />
+    <h5>Najlepszy wynik: @scores.Max()</h5>
+
+
+}
+
+
 @code
 {
     private int boxSize = 400;
@@ -25,22 +37,19 @@ else
     private int interval = 100;
 
     // TODO Change to LinkedList<SnakeBlock> _snake;
-    private List<SnakeBlock> _snake;
+    private LinkedList<SnakeBlock> _snake;
+    private List<int> scores = new List<int>();
     private String currentDirection = "D";
     private FoodBlock _food;
     private int points = 0;
-    private Boolean win = true;
+
     protected override async Task OnInitializedAsync()
     {
-        _snake = new List<SnakeBlock>()
-        {
-            new SnakeBlock(0,0,3),
-            new SnakeBlock(1,0,2),
-            new SnakeBlock(2,0,1),
-            new SnakeBlock(3,0)
-
-
-        };
+        _snake = new LinkedList<SnakeBlock>();
+        _snake.AddFirst(new SnakeBlock(0, 0));
+        _snake.AddFirst(new SnakeBlock(1, 0));
+        _snake.AddFirst(new SnakeBlock(2, 0));
+        _snake.AddFirst(new SnakeBlock(3, 0));
 
         _food = new FoodBlock(fieldsInLine, _snake);
 
@@ -59,13 +68,11 @@ else
     {
         while (true)
         {
-            //zwiekszamy number w kazdym bloku weza
 
-            _snake.ForEach(e => e.Move());
 
             //dodajemy
             var head = GenerateNewOne(_snake.Min().X, _snake.Min().Y);
-            _snake.Add(head);
+            _snake.AddFirst(head);
 
             //czy zjadl jedzenie
             var foodFound = head.Equals(_food);
@@ -76,15 +83,17 @@ else
             }
 
             else
+            {
+
                 //usuwamy ogon
-                _snake.Remove(_snake.Max());
+                _snake.RemoveLast();
+            }
+
 
             //sprawdzamy czy nie zjadl siebie
 
             if (_snake.Count(e => e.Equals(head)) > 1)
             {
-
-                win = false;
                 break;
             }
 
@@ -134,6 +143,7 @@ else
     {
         get => $"{boxSize}px";
     }
+
+
+
 }
-
-
