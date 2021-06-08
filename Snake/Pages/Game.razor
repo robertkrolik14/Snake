@@ -111,7 +111,7 @@
 
 
             //dodajemy
-            var head = GenerateNewOne(_snake.Min().X, _snake.Min().Y);
+            var head = GenerateNewOne(_snake.First.Value.X, _snake.First.Value.Y);
             _snake.AddFirst(head);
 
             //czy zjadl jedzenie
