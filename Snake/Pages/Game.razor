@@ -12,8 +12,14 @@
     }
     <FoodElement BoxSize="boxSize" FieldsInLine="fieldsInLine" X="_food.X" Y="_food.Y" />
 </div>
-
-
+<hr />
+<MudItem>
+    <MudSlider @bind-Value="interval" Step="10" Min="20" Max="150" Color="Color.Tertiary" Class="mt-6">Interval: @interval.ToString()ms</MudSlider>
+</MudItem>
+<MudItem>
+    <MudSlider @bind-Value="boxSize" Step="100" Min="200" Max="1000" Color="Color.Tertiary" Class="mt-6">boxSize: @boxSize.ToString()px</MudSlider>
+</MudItem>
+<hr />
 <h5>Twoje punkty: <strong>@points</strong></h5>
 
 @if (scores.Count != 0)
@@ -41,9 +47,12 @@
     private string currentDirection = "KEYD";
     private FoodBlock _food;
     private int points = 0;
+
+
     private string boxSizePx
     {
         get => $"{boxSize}px";
+       
     }
 
     ElementReference gamingArea;
