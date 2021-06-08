@@ -94,6 +94,7 @@
 
             if (_snake.Count(e => e.Equals(head)) > 1)
             {
+                ResetGame();
                 break;
             }
 
@@ -145,5 +146,19 @@
     }
 
 
+    private void ResetGame()
+    {
+
+        while (_snake.Count > 4)
+        {
+            _snake.RemoveLast();
+        }
+        if (points != 0)
+        {
+            scores.Add(points);
+            points = 0;
+        }
+        Clock().Start();
+    }
 
 }
