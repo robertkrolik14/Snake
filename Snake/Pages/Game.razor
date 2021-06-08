@@ -2,7 +2,7 @@
 <h5>Kliknij w obszar gry, aby rozpocząć</h5>
 
 
-<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction">
+<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction" >
 
     @foreach (var block in _snake)
     {
@@ -39,7 +39,7 @@
     // TODO Change to LinkedList<SnakeBlock> _snake;
     private LinkedList<SnakeBlock> _snake;
     private List<int> scores = new List<int>();
-    private String currentDirection = "D";
+    private string currentDirection = "KEYD";
     private FoodBlock _food;
     private int points = 0;
 
@@ -57,13 +57,31 @@
     }
     private void SaveKeyboardAction(KeyboardEventArgs args)
     {
-        if (args.Key.ToUpper() != "W" && args.Key.ToUpper() != "A" && args.Key.ToUpper() != "S" && args.Key.ToUpper() != "D")
-        {
-            return;
-        }
-        else currentDirection = args.Key.ToUpper();
+        Console.WriteLine(args.Code);
 
+        if (
+            args.Code != "KeyW" &&
+            args.Code != "KeyA" &&
+            args.Code != "KeyS" &&
+            args.Code != "KeyD" &&
+            args.Code != "ArrowLeft" &&
+            args.Code != "ArrowRight" &&
+            args.Code != "ArrowDown" &&
+            args.Code != "ArrowUp"
+            )
+
+        { 
+            return; 
+        }
+        else
+        {
+            currentDirection = args.Code.ToUpper();
+        }
     }
+
+
+
+
     private async Task Clock()
     {
         while (true)
@@ -108,19 +126,25 @@
 
     private SnakeBlock GenerateNewOne(int x, int y)
     {
+
+
         switch (currentDirection)
         {
-            case "W":
+            case "KEYW":
+            case "ARROWUP":
                 y--;
                 break;
 
-            case "S":
+            case "KEYS":
+            case "ARROWDOWN":
                 y++;
                 break;
-            case "A":
+            case "KEYA":
+            case "ARROWLEFT":
                 x--;
                 break;
-            case "D":
+            case "KEYD":
+            case "ARROWRIGHT":
                 x++;
                 break;
 
