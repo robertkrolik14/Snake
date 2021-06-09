@@ -2,7 +2,7 @@
 
 <div class="alert alert-danger"> <h4 style=" text-align: center;">Obszar gry musi być zaznaczony aby kontrolować węża</h4></div>
 
-<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction" @ref="gamingArea">
+<div id="gaming-area" tabindex="0" style="height:@boxSizePx;width:@boxSizePx;background-color:black" @onkeydown="SaveKeyboardAction" @ref="gamingArea" @onkeydown:preventDefault="true">
 
 
     @foreach (var block in _snake)
