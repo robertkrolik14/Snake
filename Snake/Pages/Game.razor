@@ -14,10 +14,10 @@
 </div>
 <hr />
 <MudItem>
-    <MudSlider @bind-Value="interval" Step="10" Min="20" Max="150" Color="Color.Tertiary" Class="mt-6">Interval: @interval.ToString()ms</MudSlider>
+    <MudSlider @bind-Value="Interval" Step="10" Min="20" Max="150" Color="Color.Tertiary" Class="mt-6">Interval: @interval.ToString()ms</MudSlider>
 </MudItem>
 <MudItem>
-    <MudSlider @bind-Value="boxSize" Step="100" Min="200" Max="1000" Color="Color.Tertiary" Class="mt-6">boxSize: @boxSize.ToString()px</MudSlider>
+    <MudSlider @bind-Value="BoxSize" Step="100" Min="200" Max="1000" Color="Color.Tertiary" Class="mt-6">boxSize: @boxSize.ToString()px</MudSlider>
 </MudItem>
 <hr />
 <h5>Twoje punkty: <strong>@points</strong></h5>
@@ -39,9 +39,9 @@
 
 @code
 {
-    private int boxSize = 400;
+
     private int fieldsInLine = 20;
-    private int interval = 100;
+
     private LinkedList<SnakeBlock> _snake;
     private List<int> scores = new List<int>();
     private string currentDirection = "KEYD";
@@ -52,9 +52,57 @@
     private string boxSizePx
     {
         get => $"{boxSize}px";
-        
+
     }
-    
+
+    private int interval = 100;    // field
+
+    public int Interval            // property
+    {
+        get { return interval; }   // get method
+        set
+        {
+
+            if (value <= 20)
+            {
+                interval = 20;
+            }
+            else if (value >= 150)
+            {
+                interval = 150;
+            }
+            else
+            {
+                interval = value;
+            }
+
+        }
+    }
+
+    private int boxSize = 400;    // field
+
+    public int BoxSize            // property
+    {
+        get { return boxSize; }   // get method
+        set
+        {
+
+            if (value <= 200)
+            {
+                boxSize = 200;
+            }
+            else if (value >= 1000)
+            {
+                boxSize = 1000;
+            }
+            else
+            {
+                boxSize = value;
+            }
+
+        }
+    }
+
     ElementReference gamingArea;
 
     protected override async Task OnInitializedAsync()
